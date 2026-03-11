@@ -1,0 +1,70 @@
+{% extends "core/base.html" %}
+
+{% block title %}Restaurants - Resto Directory{% endblock %}
+
+{% block content %}
+<section class="filter-section">
+    <form method="GET" action="{% url 'restaurant_list' %}" class="filter-form">
+        <div class="filter-input-wrapper">
+            <i class='bx bx-search'></i>
+            <input type="text" name="tag" placeholder="Filter food by tag, e.g. coffee, steak..." class="filter-input" value="{{ tag_query }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+        {% if tag_query %}
+            <a href="{% url 'restaurant_list' %}" class="btn btn-secondary">Clear</a>
+        {% endif %}
+    </form>
+</section>
+
+<div class="table-container">
+    <table class="resto-table">
+        <thead>
+            <tr>
+                <th>Resto</th>
+                <th>Tags</th>
+                <th>Area</th>
+                <th>Address</th>
+                <th>Opening Hours</th>
+                <th>Gmap</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resto in restaurants %}
+            <tr>
+                <td class="resto-name">{{ resto.name }}</td>
+                <td>
+                    {% for tag_obj in resto.restotag_set.all %}
+                        <span class="resto-category">{{ tag_obj.tag }}</span>
+                    {% empty %}
+                        <span class="text-muted">-</span>
+                    {% endfor %}
+                </td>
+                <td>{{ resto.area|default:"-" }}</td>
+                <td>{{ resto.address|linebreaksbr }}</td>
+                <td>{{ resto.opening_hours|default:"-" }}</td>
+                <td>
+                    {% if resto.map %}
+                        <a href="{{ resto.map }}" target="_blank" rel="noopener noreferrer" class="gmap-link">
+                            <i class='bx bx-map-pin'></i> View on Map
+                        </a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">
+                    <div class="empty-state">
+                        <i class='bx bx-store'></i>
+                        <h3>No restaurants found</h3>
+                        <p>Try adjusting your search criteria or add new restaurants in the admin panel.</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

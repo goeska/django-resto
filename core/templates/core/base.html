@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Resto Directory{% endblock %}</title>
+    {% load static %}
+    <!-- Boxicons for elegant icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+    
+    <nav class="navbar">
+        <a href="{% url 'restaurant_list' %}" class="brand">
+            <i class='bx bx-restaurant'></i> Resto Directory
+        </a>
+        
+        <a href="{% url 'admin:index' %}" class="admin-link">
+            <i class='bx bx-lock-alt'></i> Admin Login
+        </a>
+    </nav>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
