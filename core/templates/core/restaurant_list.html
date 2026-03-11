@@ -4,14 +4,31 @@
 
 {% block content %}
 <section class="filter-section">
-    <form method="GET" action="{% url 'restaurant_list' %}" class="filter-form">
-        <div class="filter-input-wrapper">
+    <form method="GET" action="{% url 'restaurant_list' %}" class="filter-form" style="flex-wrap: wrap;">
+        
+        <div class="filter-input-wrapper" style="flex: 1; min-width: 200px;">
             <i class='bx bx-search'></i>
-            <input type="text" name="tag" placeholder="Filter food by tag, e.g. coffee, steak..." class="filter-input" value="{{ tag_query }}">
+            <input type="text" name="resto" placeholder="Filter by Name" class="filter-input" value="{{ filters.resto }}">
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
-        {% if tag_query %}
-            <a href="{% url 'restaurant_list' %}" class="btn btn-secondary">Clear</a>
+
+        <div class="filter-input-wrapper" style="flex: 1; min-width: 200px;">
+            <i class='bx bx-map'></i>
+            <input type="text" name="area" placeholder="Filter by Area" class="filter-input" value="{{ filters.area }}">
+        </div>
+
+        <div class="filter-input-wrapper" style="flex: 1; min-width: 200px;">
+            <i class='bx bx-purchase-tag'></i>
+            <input type="text" name="tags" placeholder="Filter by Specialties" class="filter-input" value="{{ filters.tags }}">
+        </div>
+
+        <div class="filter-input-wrapper" style="flex: 1; min-width: 200px;">
+            <i class='bx bx-directions'></i>
+            <input type="text" name="address" placeholder="Filter by Address" class="filter-input" value="{{ filters.address }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="height: 100%;">Filter</button>
+        {% if filters.resto or filters.area or filters.tags or filters.address %}
+            <a href="{% url 'restaurant_list' %}" class="btn btn-secondary" style="height: 100%;">Clear</a>
         {% endif %}
     </form>
 </section>
@@ -21,7 +38,7 @@
         <thead>
             <tr>
                 <th>Resto</th>
-                <th>Tags</th>
+                <th>Specialties</th>
                 <th>Area</th>
                 <th>Address</th>
                 <th>Opening Hours</th>
